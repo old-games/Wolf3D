@@ -25,13 +25,13 @@ Savegame and in HighScores menus.
 To compile Russian Wolfenstein-3D or Spear of Destiny game
 edit the files MAKEWL.BAT or MAKESOD.BAT and specify the
 proper destination path. The SignOn screen and pallette will
-be changed depends on target binary. Compilation options for
+be changed depending on target binary. Compilation options for
 both games are stored in WLFRVER.H or SODRVER.H respectively. 
 
 This version has enhanced mouse control option where the
 player can disable Y axis movement. 
 
-The patch of AreyeP also applied and could be switched by
+The patch of AreyeP was also applied and could be switched by
 SODPATCH definition.
 
 To compile the original sources just comment the following
