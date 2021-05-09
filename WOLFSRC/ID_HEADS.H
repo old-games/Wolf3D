@@ -36,14 +36,23 @@ extern	char		far signon;
 
 #ifndef SPEAR
 
+#ifndef RUSSIAN
 #include "GFXV_WL6.H"
+#else
+#include "FOREIGN\RUSSIAN\GFXV_WL6.H"
+#endif
+
 #include "AUDIOWL6.H"
 #include "MAPSWL6.H"
 
 #else
 
 #ifndef SPEARDEMO
+#ifndef RUSSIAN
 #include "GFXV_SOD.H"
+#else
+#include "FOREIGN\RUSSIAN\GFXV_SOD.H"
+#endif
 #include "AUDIOSOD.H"
 #include "MAPSSOD.H"
 #else

@@ -63,15 +63,27 @@
 
 #define CTL_X	24
 #define CTL_Y	70
+#ifndef RUSSIAN
 #define CTL_W	284
+#else
+#define CTL_W	292
+#endif
+#ifndef MODERNCONTROL
 #define CTL_H	13*7-7
+#else
+#define CTL_H	13*8-7
+#endif
 
 #define LSM_X	85
 #define LSM_Y	55
 #define LSM_W	175
 #define LSM_H	10*13+10
 
+#ifndef RUSSIAN
 #define NM_X	50
+#else
+#define NM_X    50
+#endif
 #define NM_Y	100
 #define NM_W	225
 #define NM_H	13*4+15
@@ -81,11 +93,22 @@
 #define NE_W	320-NE_X*2
 #define NE_H	200-NE_Y*2
 
+
 #define CST_X		20
 #define CST_Y		48
+
+#ifndef RUSSIAN
 #define CST_START	60
 #define CST_SPC	60
+#else
+#define CST_START	32
+#define CST_SPC	70
 
+#define LT_X LSM_X+LSM_W-10+15   + 10
+#define LT_Y LSM_Y+LSM_H-LT_H-5
+#define LT_W 22
+#define LT_H 10
+#endif
 
 //
 // TYPEDEFS
@@ -224,7 +247,11 @@ typedef struct {
 
 extern LRstruct LevelRatios[];
 
+#ifndef RUSSIAN
 void Write (int x,int y,char *string);
+#else
+void Write (int x,int y,unsigned char *string);
+#endif
 void NonShareware(void);
 int GetYorN(int x,int y,int pic);
 

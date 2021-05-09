@@ -13,6 +13,8 @@
 					  An Id Software production
 
 						   by John Carmack
+					Russian version adapted by Pavel Keyno
+						email: src@keyno.com
 
 =============================================================================
 */
@@ -119,6 +121,9 @@ void ReadConfig(void)
 
 		read(file,&viewsize,sizeof(viewsize));
 		read(file,&mouseadjustment,sizeof(mouseadjustment));
+#ifdef MODERNCONTROL
+		read(file,&mouseaxisydisabled,sizeof(mouseaxisydisabled));
+#endif
 
 		close(file);
 
@@ -170,6 +175,9 @@ void ReadConfig(void)
 		joypadenabled = false;
 		joystickport = 0;
 		joystickprogressive = false;
+#ifdef MODERNCONTROL
+		mouseaxisydisabled = true;
+#endif
 
 		viewsize = 15;
 		mouseadjustment=5;
@@ -218,7 +226,9 @@ void WriteConfig(void)
 
 		write(file,&viewsize,sizeof(viewsize));
 		write(file,&mouseadjustment,sizeof(mouseadjustment));
-
+#ifdef MODERNCONTROL
+		write(file,&mouseaxisydisabled,sizeof(mouseaxisydisabled));
+#endif
 		close(file);
 	}
 }
@@ -523,10 +533,16 @@ boolean LoadTheGame(int file,int x,int y)
 
 	if (oldchecksum != checksum)
 	{
+#ifndef RUSSIAN
 	 Message(STR_SAVECHT1"\n"
 			 STR_SAVECHT2"\n"
 			 STR_SAVECHT3"\n"
 			 STR_SAVECHT4);
+#else
+	 Message(STR_SAVECHT1"\n"
+			 STR_SAVECHT2"\n"
+			 STR_SAVECHT3);
+#endif
 
 	 IN_ClearKeysDown();
 	 IN_Ack();
@@ -777,7 +793,11 @@ void FinishSignon (void)
 	#ifdef SPANISH
 	US_CPrint ("Oprima una tecla");
 	#else
+	#ifdef RUSSIAN
+	US_CPrint ("Нажмите любую клавишу");
+	#else
 	US_CPrint ("Press a key");
+	#endif
 	#endif
 
 	#endif
@@ -794,12 +814,20 @@ void FinishSignon (void)
 	#ifdef SPANISH
 	US_CPrint ("pensando...");
 	#else
+	#ifdef RUSSIAN
+	US_CPrint ("Запуск...");
+	#else
 	US_CPrint ("Working...");
 	#endif
+	#endif
 
 	#endif
 
+	#ifndef RUSSIAN
 	SETFONTCOLOR(0,15);
+	#else
+	SETFONTCOLOR(0,0);
+	#endif
 #else
 	if (!NoWait)
 		VW_WaitVBL(3*70);
@@ -974,6 +1002,7 @@ void InitDigiMap (void)
 CP_iteminfo	MusicItems={CTL_X,CTL_Y,6,0,32};
 CP_itemtype far MusicMenu[]=
 	{
+#ifndef RUSSIAN
 		{1,"Get Them!",0},
 		{1,"Searching",0},
 		{1,"P.O.W.",0},
@@ -994,11 +1023,34 @@ CP_itemtype far MusicMenu[]=
 		{1,"Zero Hour",0},
 		{1,"Ultimate Conquest",0},
 		{1,"Wolfpack",0}
+#else
+		{1,"Взять их!",0},
+		{1,"В поисках врага",0},
+		{1,"Военнопленный",0},
+		{1,"Неизвестность",0},
+		{1,"Военный марш",0},
+		{1,"Враг за углом!",0},
+
+		{1,"Нацистский гимн",0},
+		{1,"Затаившийся...",0},
+		{1,"Следуя за Гитлером",0},
+		{1,"Мигрень",0},
+		{1,"В подземелья",0},
+		{1,"Окончательное завоевание",0},
+
+		{1,"Мочи сукина сына!",0},
+		{1,"Нацистский рэп",0},
+		{1,"Двенадцатый час",0},
+		{1,"Час испытаний",0},
+		{1,"Окончательное завоевание",0},
+		{1,"Вольфенпакман",0}
+#endif
 	};
 #else
 CP_iteminfo MusicItems={CTL_X,CTL_Y-20,9,0,32};
 CP_itemtype far MusicMenu[]=
    {
+#ifndef RUSSIAN
 		{1,"Funky Colonel Bill",0},
 		{1,"Death To The Nazis",0},
 		{1,"Tiptoeing Around",0},
@@ -1008,6 +1060,17 @@ CP_itemtype far MusicMenu[]=
 		{1,"Puttin' It To The Enemy",0},
 		{1,"The SS Gonna Get You",0},
 		{1,"Towering Above",0}
+#else
+		{1,"Танцор полковник Билл",0},
+		{1,"Смерть нацистам",0},
+		{1,"На цыпочках в обход",0},
+		{1,"Это что, уже КОНЕЦ?",0},
+		{1,"Воплощение зла",0},
+		{1,"Дай джазу нацистам",0},
+		{1,"Всади это во врага",0},
+		{1,"Эсэсовцы тебя достанут",0},
+		{1,"Возвышающийся",0}
+#endif
 	};
 #endif
 
@@ -1099,7 +1162,11 @@ void DoJukebox(void)
 	PrintY=15;
 	WindowX = 0;
 	WindowY = 320;
+#ifndef RUSSIAN
 	US_CPrint ("Robert's Jukebox");
+#else
+	US_CPrint ("Музыкальный автомат Роберта");
+#endif
 
 	SETFONTCOLOR (TEXTCOLOR,BKGDCOLOR);
 	VW_UpdateScreen();
@@ -1459,14 +1526,18 @@ void    DemoLoop (void)
 		#ifndef GOODTIMES
 		#ifndef SPEAR
 		#ifndef JAPAN
+		#ifndef RUSSIAN
 		if (!NoWait)
 			NonShareware();
+		#endif
 		#endif
 		#else
 
 			#ifndef GOODTIMES
 			#ifndef SPEARDEMO
+			#ifndef SODPATCH
 			CopyProtection();
+			#endif
 			#endif
 			#endif
 

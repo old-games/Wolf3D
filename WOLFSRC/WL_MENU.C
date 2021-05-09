@@ -2,6 +2,8 @@
 //
 // WL_MENU.C
 // by John Romero (C) 1992 Id Software, Inc.
+// Russian version adapted by Pavel Keyno
+// email: src@keyno.com
 //
 ////////////////////////////////////////////////////////////////////
 #include "wl_def.h"
@@ -27,6 +29,7 @@ void CP_ReadThis(void);
 char far endStrings[9][80]=
 {
 #ifndef SPEAR
+#ifndef RUSSIAN
 	{"Dost thou wish to\nleave with such hasty\nabandon?"},
 	{"Chickening out...\nalready?"},
 	{"Press N for more carnage.\nPress Y to be a weenie."},
@@ -36,6 +39,17 @@ char far endStrings[9][80]=
 	{"Heroes, press N.\nWimps, press Y."},
 	{"You are at an intersection.\nA sign says, 'Press Y to quit.'\n>"},
 	{"For guns and glory, press N.\nFor work and worry, press Y."}
+#else
+	{"Ужели ты желаешь уйти\nс такой поспешностью?"},
+	{"Уже струсил?.."},
+	{"Нажми N для ещё большей\nрезни. Нажми Y, чтобы\nстать сосунком."},
+	{"Полагаешь, что сможешь так\nлегко отделаться, да?"},
+	{"Нажми N, чтобы спасти мир.\nНажми Y, чтобы бросить его\nв трудную минуту."},
+	{"Нажми N, коли смел. Нажми Y,\nчтобы сгореть от стыда."},
+	{"Герои - нажмите N.\nСлабаки - нажмите Y."},
+	{"На табличке написано:\n\"Нажми Y, чтобы выйти\"\n>"},
+	{"Для стрельбы и славы - нажми N.\nДля работы и заботы - нажми Y."}
+#endif
 #else
 	ENDSTR1,
 	ENDSTR2,
@@ -53,10 +67,19 @@ CP_iteminfo
 	MainItems={MENU_X,MENU_Y,10,STARTITEM,24},
 	SndItems={SM_X,SM_Y1,12,0,52},
 	LSItems={LSM_X,LSM_Y,10,0,24},
+#ifdef MODERNCONTROL
+	CtlItems={CTL_X,CTL_Y,7,-1,56},
+#else
 	CtlItems={CTL_X,CTL_Y,6,-1,56},
+#endif
 	CusItems={8,CST_Y+13*2,9,-1,0},
+#ifndef RUSSIAN
 	NewEitems={NE_X,NE_Y,11,0,88},
 	NewItems={NM_X,NM_Y,4,2,24};
+#else
+	NewEitems={NE_X,NE_Y,11,0,82},
+	NewItems={NM_X-40,NM_Y,4,2,24};
+#endif
 
 #pragma warn -sus
 CP_itemtype far
@@ -88,7 +111,11 @@ MainMenu[]=
 	#ifdef SPANISH
 	{2,"Ve esto!",CP_ReadThis},
 	#else
+	#ifdef RUSSIAN
+	{2,"Прочти это!",CP_ReadThis},
+	#else
 	{2,"Read This!",CP_ReadThis},
+	#endif
 	#endif
 
 #endif
@@ -116,7 +143,11 @@ far SndMenu[]=
 	{1,"",0},
 	{1,"",0},
 #else
+#ifndef RUSSIAN
 	{1,STR_NONE,0},
+#else
+	{1,STR_NONEPLR,0},
+#endif
 	{1,STR_PC,0},
 	{1,STR_ALSB,0},
 	{0,"",0},
@@ -145,6 +176,9 @@ far CtlMenu[]=
 	{0,STR_JOYEN,0},
 	{0,STR_PORT2,0},
 	{0,STR_GAMEPAD,0},
+#ifdef MODERNCONTROL
+	{0,STR_AXISYDIS,0},
+#endif
 	{0,STR_SENS,MouseSensitivity},
 	{1,STR_CUSTOM,CustomControls}
 #endif
@@ -203,6 +237,25 @@ far NewEmenu[]=
 	{3,"Episodio 6\n"
 		  "Confrontacion",0}
 	#else
+	#ifdef RUSSIAN
+	{1,"Эпизод 1\n"
+	   "Побег из Вольфенштайна",0},
+	{0,"",0},
+	{3,"Эпизод 2\n"
+		   "Операция \"Айзенфауст\"",0},
+	{0,"",0},
+	{3,"Эпизод 3\n"
+		   "Сдохни, фюрер, сдохни!",0},
+	{0,"",0},
+	{3,"Эпизод 4\n"
+		  "Тёмная тайна",0},
+	{0,"",0},
+	{3,"Эпизод 5\n"
+		  "По следам безумца",0},
+	{0,"",0},
+	{3,"Эпизод 6\n"
+		  "Противостояние",0}
+	#else
 	{1,"Episode 1\n"
 	   "Escape from Wolfenstein",0},
 	{0,"",0},
@@ -220,6 +273,7 @@ far NewEmenu[]=
 	{0,"",0},
 	{3,"Episode 6\n"
 		  "Confrontation",0}
+	#endif
 	#endif
 #endif
 },
@@ -317,10 +371,17 @@ static byte
 					},
 					*ExtScanNames[] =	// Names corresponding to ExtScanCodes
 					{
+#ifndef RUSSIAN
 	"Esc","BkSp","Tab","Ctrl","LShft","Space","CapsLk","F1","F2","F3","F4",
 	"F5","F6","F7","F8","F9","F10","F11","F12","ScrlLk","Enter","RShft",
 	"PrtSc","Alt","Home","PgUp","End","PgDn","Ins","Del","NumLk","Up",
 	"Down","Left","Right",""
+#else
+	"Esc","BkSp","Tab","Ctrl","Л.Shift","Пробел","CapsLk","F1","F2","F3","F4",
+	"F5","F6","F7","F8","F9","F10","F11","F12","ScrlLk","Enter","П.Shift",
+	"PrtSc","Alt","Home","PgUp","End","PgDn","Ins","Del","NumLk","Вверх",
+	"Вниз","Влево","Вправо",""
+#endif
 					};
 
 
@@ -545,7 +606,11 @@ void DrawMainMenu(void)
 
 	VWB_DrawPic(112,184,C_MOUSELBACKPIC);
 	DrawStripes(10);
+	#ifndef RUSSIAN
 	VWB_DrawPic(84,0,C_OPTIONSPIC);
+	#else
+	VWB_DrawPic(69,0,C_OPTIONSPIC);
+	#endif 
 
 	#ifdef SPANISH
 	DrawWindow(MENU_X-8,MENU_Y-3,MENU_W+8,MENU_H,BKGDCOLOR);
@@ -616,9 +681,7 @@ void CP_ReadThis(void)
 #endif
 #endif
 
-#ifndef SPEAR
-#ifndef GOODTIMES
-#else
+#if defined(SPEAR) || defined(GOODTIMES)
 ////////////////////////////////////////////////////////////////////
 //
 // BOSS KEY
@@ -639,7 +702,6 @@ void BossKey(void)
 	VL_SetPalette (&gamepal);
 	LoadLatchMem();
 }
-#endif
 #endif
 
 ////////////////////////////////////////////////////////////////////
@@ -695,7 +757,13 @@ int CP_CheckQuick(unsigned scancode)
 				CA_CacheGrChunk(C_DISKLOADING1PIC);
 				CA_CacheGrChunk(C_DISKLOADING2PIC);
 				CA_CacheGrChunk(C_SAVEGAMEPIC);
+#ifndef RUSSIAN
 				CA_CacheGrChunk(C_MOUSELBACKPIC);
+#else
+				CA_CacheGrChunk(C_LAYOUTCTRLPIC);
+				CA_CacheGrChunk (C_ENGPIC);
+				CA_CacheGrChunk (C_RUSPIC);
+#endif
 				#else
 				CacheLump (BACKDROP_LUMP_START,BACKDROP_LUMP_END);
 				CA_CacheGrChunk(C_CURSOR1PIC);
@@ -731,7 +799,13 @@ int CP_CheckQuick(unsigned scancode)
 				UNCACHEGRCHUNK(C_DISKLOADING1PIC);
 				UNCACHEGRCHUNK(C_DISKLOADING2PIC);
 				UNCACHEGRCHUNK(C_SAVEGAMEPIC);
+#ifndef RUSSIAN
 				UNCACHEGRCHUNK(C_MOUSELBACKPIC);
+#else
+				UNCACHEGRCHUNK(C_LAYOUTCTRLPIC);
+				UNCACHEGRCHUNK(C_ENGPIC);
+				UNCACHEGRCHUNK(C_RUSPIC);
+#endif
 				#else
 				UnCacheLump (BACKDROP_LUMP_START,BACKDROP_LUMP_END);
 				#endif
@@ -946,6 +1020,7 @@ firstpart:
 				return;
 
 			default:
+#ifndef RUSSIAN
 				if (!EpisodeSelect[which/2])
 				{
 					SD_PlaySound (NOWAYSND);
@@ -959,6 +1034,7 @@ firstpart:
 					which = 0;
 				}
 				else
+#endif
 				{
 					episode = which/2;
 					which = 1;
@@ -1064,7 +1140,11 @@ void DrawNewEpisode(void)
 	#ifdef SPANISH
 	US_CPrint("Cual episodio jugar?");
 	#else
+	#ifdef RUSSIAN
+	US_CPrint("В какой эпизод играем?");
+	#else
 	US_CPrint("Which episode to play?");
+	#endif
 	#endif
 #endif
 
@@ -1100,13 +1180,25 @@ void DrawNewGame(void)
 	#ifdef SPANISH
 	US_Print("Eres macho?");
 	#else
+	#ifdef RUSSIAN
+	US_Print("Насколько ты крут?");
+	#else
 	US_Print("How tough are you?");
 	#endif
+	#endif
 #else
+	#ifdef RUSSIAN
 	VWB_DrawPic (PrintX,PrintY,C_HOWTOUGHPIC);
+	#else
+	VWB_DrawPic (PrintX,PrintY,C_HOWTOUGHPIC);
+	#endif
 #endif
 
+#ifndef RUSSIAN
 	DrawWindow(NM_X-5,NM_Y-10,NM_W,NM_H,BKGDCOLOR);
+#else
+	DrawWindow(NM_X-45,NM_Y-10,NM_W+85,NM_H,BKGDCOLOR);
+#endif
 #endif
 
 	DrawMenu(&NewItems,&NewMenu[0]);
@@ -1123,7 +1215,11 @@ void DrawNewGame(void)
 //
 void DrawNewGameDiff(int w)
 {
+	#ifndef RUSSIAN
 	VWB_DrawPic(NM_X+185,NM_Y+7,w+C_BABYMODEPIC);
+	#else
+	VWB_DrawPic(NM_X+215,NM_Y+15,w+C_BABYMODEPIC);
+	#endif
 }
 
 
@@ -1342,10 +1438,17 @@ void DrawSoundMenu(void)
 //
 void DrawLSAction(int which)
 {
+#ifndef RUSSIAN
 	#define LSA_X	96
 	#define LSA_Y	80
 	#define LSA_W	130
 	#define LSA_H	42
+#else
+	#define LSA_X	96
+	#define LSA_Y   80
+	#define LSA_W   165
+	#define LSA_H   42
+#endif
 
 	DrawWindow(LSA_X,LSA_Y,LSA_W,LSA_H,TEXTCOLOR);
 	DrawOutline(LSA_X,LSA_Y,LSA_W,LSA_H,0,HIGHLIGHT);
@@ -1490,7 +1593,16 @@ void DrawLoadSaveScreen(int loadsave)
 
 	ClearMScreen();
 	fontnumber=1;
+#ifndef RUSSIAN
 	VWB_DrawPic(112,184,C_MOUSELBACKPIC);
+#else
+	if (!loadsave)
+		VWB_DrawPic(112,184,C_MOUSELBACKPIC);
+	else
+	{
+		VWB_DrawPic(88,184,C_LAYOUTCTRLPIC);       // If it "savegame"", draw with layout change key hint
+	}
+#endif
 	DrawWindow(LSM_X-10,LSM_Y-5,LSM_W,LSM_H,BKGDCOLOR);
 	DrawStripes(10);
 
@@ -1610,8 +1722,12 @@ int CP_SaveGame(int quick)
 			if (!SaveGamesAvail[which])
 				VWB_Bar(LSM_X+LSItems.indent+1,LSM_Y+which*13+1,LSM_W-LSItems.indent-16,10,BKGDCOLOR);
 			VW_UpdateScreen();
-
+#ifndef RUSSIAN
 			if (US_LineInput(LSM_X+LSItems.indent+2,LSM_Y+which*13+1,input,input,true,31,LSM_W-LSItems.indent-30))
+#else
+			//DrawWindow(LT_X,LT_Y,LT_W,LT_H,BKGDCOLOR); // Draw window for keyboard switch
+			if (US_MultiLangLineInput(LSM_X+LSItems.indent+2,LSM_Y+which*13+1,input,input,true,31,LSM_W-LSItems.indent-30, LT_X+4, LT_Y+2))
+#endif				
 			{
 				SaveGamesAvail[which]=1;
 				strcpy(&SaveGameNames[which][0],input);
@@ -1633,6 +1749,9 @@ int CP_SaveGame(int quick)
 			{
 				VWB_Bar(LSM_X+LSItems.indent+1,LSM_Y+which*13+1,LSM_W-LSItems.indent-16,10,BKGDCOLOR);
 				PrintLSEntry(which,HIGHLIGHT);
+#ifdef RUSSIAN0disabled
+				VWB_Bar(LT_X-1,LT_Y-1,LT_W+1,LT_H+1,BKGDCOLOR);
+#endif
 				VW_UpdateScreen();
 				SD_PlaySound(ESCPRESSEDSND);
 				continue;
@@ -1662,10 +1781,17 @@ int CP_SaveGame(int quick)
 ////////////////////////////////////////////////////////////////////
 int CalibrateJoystick(void)
 {
+#ifndef RUSSIAN
 	#define CALX	85
 	#define CALY	40
 	#define CALW	158
 	#define CALH	140
+#else
+	#define CALX    58
+	#define CALY    40
+	#define CALW    210
+	#define CALH    140
+#endif
 
 	unsigned xmin,ymin,xmax,ymax,jb;
 
@@ -1683,7 +1809,11 @@ int CalibrateJoystick(void)
 	WindowH = CALH;
 	WindowY = PrintY = CALY;
 	US_Print("    "STR_CALIB"\n    "STR_JOYST"\n");
+#ifndef RUSSIAN
 	VWB_DrawPic(CALX+40,CALY+30,C_JOY1PIC);
+#else
+	VWB_DrawPic(CALX+70,CALY+30,C_JOY1PIC);
+#endif
 	PrintY = CALY+80;
 	US_Print(STR_MOVEJOY);
 	SETFONTCOLOR(BKGDCOLOR,TEXTCOLOR);
@@ -1761,7 +1891,11 @@ int CalibrateJoystick(void)
 void CP_Control(void)
 {
 	#define CTL_SPC	70
+#ifndef MODERNCONTROL
 	enum {MOUSEENABLE,JOYENABLE,USEPORT2,PADENABLE,MOUSESENS,CUSTOMIZE};
+#else
+	enum {MOUSEENABLE,JOYENABLE,USEPORT2,PADENABLE,AXISYDIS,MOUSESENS,CUSTOMIZE};
+#endif
 	int i,which;
 
 
@@ -1809,6 +1943,13 @@ void CP_Control(void)
 				DrawCtlScreen();
 				ShootSnd();
 				break;
+#ifdef MODERNCONTROL
+			case AXISYDIS:
+				mouseaxisydisabled^=1;
+				DrawCtlScreen();
+				ShootSnd();
+				break;
+#endif
 
 			case MOUSESENS:
 			case CUSTOMIZE:
@@ -1842,7 +1983,11 @@ void DrawMouseSens(void)
 	#ifdef SPANISH
 	DrawWindow(10,80,300,43,BKGDCOLOR);
 	#else
+	#ifdef RUSSIAN
+	DrawWindow(0,80,320,30,BKGDCOLOR);
+	#else
 	DrawWindow(10,80,300,30,BKGDCOLOR);
+	#endif
 	#endif
 
 	WindowX=0;
@@ -1859,11 +2004,19 @@ void DrawMouseSens(void)
 	PrintX=252;
 	US_Print(STR_FAST);
 	#else
+	#ifdef RUSSIAN
+	PrintX=6;
+	PrintY=95;
+	US_Print(STR_SLOW);
+	PrintX=262;
+	US_Print(STR_FAST);
+	#else
 	PrintX=14;
 	PrintY=95;
 	US_Print(STR_SLOW);
 	PrintX=269;
 	US_Print(STR_FAST);
+	#endif
 	#endif
 #endif
 
@@ -1969,7 +2122,11 @@ void DrawCtlScreen(void)
 #else
  ClearMScreen();
  DrawStripes(10);
+#ifndef RUSSIAN
  VWB_DrawPic(80,0,C_CONTROLPIC);
+#else
+ VWB_DrawPic(64,0,C_CONTROLPIC);
+#endif
  VWB_DrawPic(112,184,C_MOUSELBACKPIC);
  DrawWindow(CTL_X-8,CTL_Y-5,CTL_W,CTL_H,BKGDCOLOR);
 #endif
@@ -1991,7 +2148,9 @@ void DrawCtlScreen(void)
  }
 
  CtlMenu[4].active=mouseenabled;
-
+#ifdef MODERNCONTROL
+ CtlMenu[5].active=mouseenabled;
+#endif
 
  DrawMenu(&CtlItems,&CtlMenu[0]);
 
@@ -2021,11 +2180,23 @@ void DrawCtlScreen(void)
  else
    VWB_DrawPic(x,y,C_NOTSELECTEDPIC);
 
+#ifdef MODERNCONTROL
+ y=CTL_Y+55;
+ if (mouseaxisydisabled)
+   VWB_DrawPic(x,y,C_SELECTEDPIC);
+ else
+   VWB_DrawPic(x,y,C_NOTSELECTEDPIC);
+#endif
+
  //
  // PICK FIRST AVAILABLE SPOT
  //
  if (CtlItems.curpos<0 || !CtlMenu[CtlItems.curpos].active)
+#ifndef MODERNCONTROL
    for (i=0;i<6;i++)
+#else
+   for (i=0;i<7;i++)
+#endif
 	 if (CtlMenu[i].active)
 	 {
 	  CtlItems.curpos=i;
@@ -2043,8 +2214,15 @@ void DrawCtlScreen(void)
 //
 ////////////////////////////////////////////////////////////////////
 enum {FIRE,STRAFE,RUN,OPEN};
+#ifndef RUSSIAN
 char mbarray[4][3]={"b0","b1","b2","b3"},
 	   order[4]={RUN,OPEN,FIRE,STRAFE};
+#else
+char	mbarray[4][3]={"к0","к1","к2","к3"},
+	order[4]={RUN,OPEN,FIRE,STRAFE},
+	mousebarray[4][4]={"ЛКМ","ПКМ", "СКМ","ДКМ"};
+#endif
+
 
 
 void CustomControls(void)
@@ -2452,7 +2630,11 @@ void DrawCustomScreen(void)
 	WindowW=320;
 	VWB_DrawPic(112,184,C_MOUSELBACKPIC);
 	DrawStripes(10);
+#ifndef RUSSIAN
 	VWB_DrawPic(80,0,C_CUSTOMIZEPIC);
+#else
+	VWB_DrawPic(64,0,C_CUSTOMIZEPIC);
+#endif
 
 	//
 	// MOUSE
@@ -2463,7 +2645,12 @@ void DrawCustomScreen(void)
 
 #ifndef SPEAR
 	PrintY=CST_Y;
+#ifndef RUSSIAN
 	US_CPrint("Mouse\n");
+#else
+	US_CPrint("Мышь\n");
+#endif
+
 #else
 	PrintY = CST_Y+13;
 	VWB_DrawPic (128,48,C_MOUSEPIC);
@@ -2500,7 +2687,11 @@ void DrawCustomScreen(void)
 	//
 #ifndef SPEAR
 	SETFONTCOLOR(READCOLOR,BKGDCOLOR);
-	US_CPrint("Joystick/Gravis GamePad\n");
+#ifndef RUSSIAN
+        US_CPrint("Joystick/Gravis GamePad\n");
+#else
+        US_CPrint("Джойстик/Gravis GamePad\n");
+#endif
 #else
 	PrintY += 13;
 	VWB_DrawPic (40,88,C_JOYSTICKPIC);
@@ -2540,7 +2731,11 @@ void DrawCustomScreen(void)
 	//
 #ifndef SPEAR
 	SETFONTCOLOR(READCOLOR,BKGDCOLOR);
+#ifndef RUSSIAN
 	US_CPrint("Keyboard\n");
+#else
+        US_CPrint("Клавиатура\n");
+#endif
 #else
 	PrintY += 13;
 #endif
@@ -2620,7 +2815,11 @@ void PrintCustMouse(int i)
 		if (order[i]==buttonmouse[j])
 		{
 			PrintX=CST_START+CST_SPC*i;
+#ifndef RUSSIAN
 			US_Print(mbarray[j]);
+#else
+			US_Print(mousebarray[j]);
+#endif
 			break;
 		}
 }
@@ -2765,8 +2964,13 @@ void CP_ChangeView(void)
 		case dir_North:
 		case dir_East:
 			newview++;
+#ifndef RUSSIAN
 			if (newview>19)
 				newview=19;
+#else
+                        if (newview>20)
+                                newview=20;
+#endif
 			ShowViewSize(newview);
 			VW_UpdateScreen();
 			SD_PlaySound(HITWALLSND);
@@ -3740,7 +3944,11 @@ void Message(char far *string)
 			h+=font->height;
 		}
 		else
+#ifndef RUSSIAN
 			w+=font->width[string[i]];
+#else
+                        w+=font->width[(byte)string[i]]; // looks like some bug fix
+#endif
 
 	if (w+10>mw)
 		mw=w+10;

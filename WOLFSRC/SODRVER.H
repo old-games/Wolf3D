@@ -1,4 +1,4 @@
-//#define SPEAR
+#define SPEAR
 #define RUSSIAN
 //#define GOODTIMES
 #define ARTSEXTERN
@@ -8,4 +8,4 @@
 #define CARMACIZED
 //#define UPLOAD
 #define MODERNCONTROL
-//#define SODPATCH
+#define SODPATCH

@@ -113,8 +113,15 @@ extern	void	US_Startup(void),
 				US_CheckHighScore(long score,word other),
 				US_DisplayHighScores(int which);
 extern	boolean	US_UpdateCursor(void),
+#ifndef RUSSIAN
 				US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 								int maxchars,int maxwidth);
+#else
+				#define US_LineInput(x, y, buf, def, escok, maxchars, maxwidth) US_MultiLangLineInput(x, y, buf, def, escok, maxchars, maxwidth, -1, -1)
+				US_MultiLangLineInput(int x,int y,char *buf,char *def,boolean escok,
+								int maxchars,int maxwidth,
+								int keybx,int keyby);
+#endif
 extern	int		US_CheckParm(char *parm,char **strings),
 				US_RndT(void);
 

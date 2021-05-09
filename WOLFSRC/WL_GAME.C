@@ -984,7 +984,11 @@ void RecordDemo (void)
 	PrintY+=6;
 	CA_CacheGrChunk(STARTFONT);
 	fontnumber=0;
+#ifndef RUSSIAN
 	US_Print("  Demo which level(1-10):");
+#else
+	US_Print("  Демо какого уровня(1-10):");
+#endif
 	VW_UpdateScreen();
 	VW_FadeIn ();
 	esc = !US_LineInput (px,py,str,NULL,true,2,0);

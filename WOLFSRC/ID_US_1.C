@@ -5,7 +5,9 @@
 //	By Jason Blochowiak
 //	Hacked up for Catacomb 3D
 //
-
+//	Russian version adapted by Pavel Keyno
+//	email: src@keyno.com
+//
 //
 //	This module handles dealing with user input & feedback
 //
@@ -39,6 +41,11 @@
 		word		PrintX,PrintY;
 		word		WindowX,WindowY,WindowW,WindowH;
 
+#ifdef RUSSIAN
+		boolean		RussianLayout = false; // initially English layout
+static  	char	CyrCollate[]="ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,йцукенгшщзхъфывапролджэячсмитьбю.Ёё\";:?/";
+static		char	LatCollate[]="QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?qwertyuiop[]asdfghjkl;'zxcvbnm,./~`@$^&\\";
+#endif
 //	Internal variables
 #define	ConfigVersion	1
 
@@ -56,6 +63,7 @@ static	boolean		US_Started;
 		SaveGame	Games[MaxSaveGames];
 		HighScore	Scores[MaxScores] =
 					{
+#ifndef RUSSIAN
 						{"id software-'92",10000,1},
 						{"Adrian Carmack",10000,1},
 						{"John Carmack",10000,1},
@@ -63,6 +71,15 @@ static	boolean		US_Started;
 						{"Tom Hall",10000,1},
 						{"John Romero",10000,1},
 						{"Jay Wilbur",10000,1},
+#else
+						{"id software-'92",10000,1},
+						{"Адриан Кармак",10000,1},
+						{"Джон Кармак",10000,1},
+						{"Кевин Клауд",10000,1},
+						{"Том Холл",10000,1},
+						{"Джон Ромеро",10000,1},
+						{"Джей Уилбур",10000,1},
+#endif
 					};
 
 //	Internal routines
@@ -549,12 +566,20 @@ USL_XORICursor(int x,int y,char *s,word cursor)
 	px = x + w - 1;
 	py = y;
 	if (status^=1)
+#ifndef RUSSIAN
 		USL_DrawString("\x80");
+#else
+		USL_DrawString("\xB0"); // in Russian version cursor has been moved due to implementation of CP866
+#endif
 	else
 	{
 		temp = fontcolor;
 		fontcolor = backcolor;
+#ifndef RUSSIAN
 		USL_DrawString("\x80");
+#else
+		USL_DrawString("\xB0"); 
+#endif
 		fontcolor = temp;
 	}
 
@@ -570,9 +595,15 @@ USL_XORICursor(int x,int y,char *s,word cursor)
 //		returned
 //
 ///////////////////////////////////////////////////////////////////////////
+#ifndef RUSSIAN
 boolean
 US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 				int maxchars,int maxwidth)
+#else
+boolean
+US_MultiLangLineInput(int x,int y,char *buf,char *def,boolean escok,
+					  int maxchars,int maxwidth,int keybx,int keyby)
+#endif
 {
 	boolean		redraw,
 				cursorvis,cursormoved,
@@ -585,6 +616,15 @@ US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 				w,h,
 				len,temp;
 	longword	lasttime;
+#ifdef RUSSIAN
+	char 		*pos; // character address in collation array
+	const	int kbPics[] = {C_ENGPIC, C_RUSPIC};
+
+	if(keybx!=-1 && keyby!=-1)
+	{
+		VWB_DrawPic(keybx, keyby, kbPics[RussianLayout]); // draw keyboard layout indicator
+	}
+#endif
 
 	if (def)
 		strcpy(s,def);
@@ -613,7 +653,6 @@ US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 		LastASCII = key_None;
 
 	asm	popf
-
 		switch (sc)
 		{
 		case sc_LeftArrow:
@@ -664,6 +703,13 @@ US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 			c = key_None;
 			cursormoved = true;
 			break;
+#ifdef RUSSIAN
+		// Switching keyboard layout
+		case sc_Alt:
+			RussianLayout^=1;
+			redraw = true;
+			break;
+#endif 
 		case sc_Delete:
 			if (s[cursor])
 			{
@@ -697,6 +743,12 @@ US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 			&&	((!maxwidth) || (w < maxwidth))
 			)
 			{
+#ifdef RUSSIAN
+				// Switched to Cyrillic
+				pos = strchr(LatCollate, c);
+				if(RussianLayout && (pos != NULL))
+					c = CyrCollate[pos - LatCollate];
+#endif
 				for (i = len + 1;i > cursor;i--)
 					s[i] = s[i - 1];
 				s[cursor++] = c;
@@ -718,6 +770,10 @@ US_LineInput(int x,int y,char *buf,char *def,boolean escok,
 			py = y;
 			USL_DrawString(s);
 
+#ifdef RUSSIAN
+			if(keybx!=-1 && keyby!=-1)
+				VWB_DrawPic(keybx, keyby, kbPics[RussianLayout]); // draw keyboard layout indicator
+#endif
 			redraw = false;
 		}
 

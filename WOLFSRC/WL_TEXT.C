@@ -361,7 +361,11 @@ void HandleWord (void)
 	//
 	word[0] = *text++;
 	wordindex = 1;
+#ifndef RUSSIAN
 	while (*text>32)
+#else
+	while (*text>32 || *text<0)
+#endif
 	{
 		word[wordindex] = *text++;
 		if (++wordindex == WORDLIMIT)
@@ -422,11 +426,15 @@ void PageLayout (boolean shownumber)
 // clear the screen
 //
 	VWB_Bar (0,0,320,200,BACKCOLOR);
+#ifndef SPEAR
+//#ifndef SODPATCH // removing obsolete Read This! referrals for SoD according to AreyeP
 	VWB_DrawPic (0,0,H_TOPWINDOWPIC);
 	VWB_DrawPic (0,8,H_LEFTWINDOWPIC);
 	VWB_DrawPic (312,8,H_RIGHTWINDOWPIC);
 	VWB_DrawPic (8,176,H_BOTTOMINFOPIC);
-
+//#endif
+#endif
+	
 
 	for (i=0;i<TEXTROWS;i++)
 	{
@@ -442,7 +450,11 @@ void PageLayout (boolean shownumber)
 //
 // make sure we are starting layout text (^P first command)
 //
+#ifndef RUSSIAN
 	while (*text <= 32)
+#else
+	while (*text <= 32 && *text >= 0)
+#endif
 		text++;
 
 	if (*text != '^' || toupper(*++text) != 'P')
@@ -467,7 +479,11 @@ void PageLayout (boolean shownumber)
 		 px = (px+8)&0xf8;
 		 text++;
 		}
+#ifndef RUSSIAN
 		else if (ch <= 32)
+#else
+		else if (ch <= 32 && ch>= 0)
+#endif
 			HandleCtrls ();
 		else
 			HandleWord ();
@@ -486,10 +502,19 @@ void PageLayout (boolean shownumber)
 		py = 183;
 		px = 208;
 		#else
+#ifndef RUSSIAN
 		strcpy (str,"pg ");
+#else
+		strcpy (str,"стр. ");
+#endif
+
 		itoa (pagenum,str2,10);
 		strcat (str,str2);
+#ifndef RUSSIAN
 		strcat (str," of ");
+#else
+		strcat (str," из ");
+#endif
 		py = 183;
 		px = 213;
 		#endif
@@ -558,10 +583,14 @@ void CacheLayoutGraphics (void)
 				numpages++;
 			if (ch == 'E')		// end of file, so load graphics and return
 			{
+#ifndef SPEAR
+//#ifndef SODPATCH // removing obsolete Read This! referrals for SoD according to AreyeP recommendation
 				CA_MarkGrChunk(H_TOPWINDOWPIC);
 				CA_MarkGrChunk(H_LEFTWINDOWPIC);
 				CA_MarkGrChunk(H_RIGHTWINDOWPIC);
 				CA_MarkGrChunk(H_BOTTOMINFOPIC);
+//#endif
+#endif
 				CA_CacheMarks ();
 				text = textstart;
 				return;

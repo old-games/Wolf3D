@@ -565,7 +565,11 @@ void DrawKeys (void)
 	if (gamestate.keys & 2)
 		StatusDrawPic (30,20,SILVERKEYPIC);
 	else
+#ifndef RUSSIAN
 		StatusDrawPic (30,20,NOKEYPIC);
+#else
+		StatusDrawPic (30,20,NOSILVERKEYPIC);
+#endif
 }
 
 

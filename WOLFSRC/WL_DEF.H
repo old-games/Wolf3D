@@ -1,7 +1,7 @@
 //#define BETA
-#define YEAR	1992
-#define MONTH	9
-#define DAY		30
+#define YEAR	2021
+#define MONTH	5
+#define DAY	9
 
 #include "ID_HEADS.H"
 #include <MATH.H>
@@ -9,14 +9,20 @@
 
 #include "WL_MENU.H"
 
-#ifdef SPANISH
+#if defined SPANISH
 #include "SPANISH.H"
+#elif defined RUSSIAN
+#include "RUSSIAN.H"
 #else
 #include "FOREIGN.H"
 #endif
 
 #ifdef SPEAR
+#ifndef RUSSIAN
 #include "F_SPEAR.H"
+#else
+#include "R_SPEAR.H"
+#endif
 #endif
 
 /*
@@ -890,7 +896,12 @@ extern	int			extravbls;
 //
 // control info
 //
+
 extern	boolean		mouseenabled,joystickenabled,joypadenabled,joystickprogressive;
+#ifdef MODERNCONTROL
+extern	boolean		mouseaxisydisabled;
+#endif
+
 extern	int			joystickport;
 extern	int			dirscan[4];
 extern	int			buttonscan[NUMBUTTONS];

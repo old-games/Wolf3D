@@ -1936,7 +1936,12 @@ void A_Dormant (objtype *ob)
 	long	deltax,deltay;
 	int	xl,xh,yl,yh;
 	int	x,y;
+
+#ifndef SODPATCH
 	unsigned	tile;
+#else
+	objtype		*tile;
+#endif
 
 	deltax = ob->x - player->x;
 	if (deltax < -MINACTORDIST || deltax > MINACTORDIST)
@@ -1959,7 +1964,11 @@ moveok:
 			tile = actorat[x][y];
 			if (!tile)
 				continue;
+#ifndef SODPATCH
 			if (tile<256)
+#else
+			if (tile && tile<objlist)
+#endif
 				return;
 			if (((objtype *)tile)->flags&FL_SHOOTABLE)
 				return;
@@ -3792,7 +3801,12 @@ void	A_StartDeathCam (objtype *ob)
 	CA_CacheScreen(C_LETSSEEPIC);
 	#endif
 	#else
+	#ifndef RUSSIAN
 	Write(0,7,STR_SEEAGAIN);
+	#else
+	Write(2,7,STR_SEEAGAIN);
+	Write(10,9,STR_SEEAGRUS);
+	#endif
 	#endif
 	CA_DownLevel ();
 	PM_CheckMainMem ();

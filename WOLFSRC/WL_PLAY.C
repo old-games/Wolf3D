@@ -56,6 +56,9 @@ byte		update[UPDATESIZE];
 // control info
 //
 boolean		mouseenabled,joystickenabled,joypadenabled,joystickprogressive;
+#ifdef MODERNCONTROL
+boolean		mouseaxisydisabled;
+#endif
 int			joystickport;
 int			dirscan[4] = {sc_UpArrow,sc_RightArrow,sc_DownArrow,sc_LeftArrow};
 int			buttonscan[NUMBUTTONS] =
@@ -207,7 +210,7 @@ int songs[]=
  XFUNKIE_MUS,
  XDEATH_MUS,
  XGETYOU_MUS,		// DON'T KNOW
- ULTIMATE_MUS,	// Trans GrФsse
+ ULTIMATE_MUS,	// Trans Gr"sse
 
  DUNGEON_MUS,
  GOINGAFT_MUS,
@@ -382,7 +385,12 @@ void PollMouseMove (void)
 	mouseymove = _DX;
 
 	controlx += mousexmove*10/(13-mouseadjustment);
+#ifdef MODERNCONTROL
+	if(!mouseaxisydisabled)
+		controly += mouseymove*20/(13-mouseadjustment);
+#else
 	controly += mouseymove*20/(13-mouseadjustment);
+#endif
 }
 
 
@@ -635,12 +643,20 @@ void CheckKeys (void)
 		WindowH = 160;
 		if (godmode)
 		{
+#ifndef RUSSIAN
 			Message ("God mode OFF");
+#else
+			Message ("Режим Бога ВЫКЛ");
+#endif
 			SD_PlaySound (NOBONUSSND);
 		}
 		else
 		{
+#ifndef RUSSIAN
 			Message ("God mode ON");
+#else
+			Message ("Режим Бога ВКЛ");
+#endif
 			SD_PlaySound (ENDBONUS2SND);
 		}
 
@@ -679,7 +695,11 @@ void CheckKeys (void)
 		VW_ScreenToScreen (displayofs,bufferofs,80,160);
 
 		Message(STR_CHEATER1"\n"
+#ifndef RUSSIAN
 				STR_CHEATER2"\n\n"
+#else
+				STR_CHEATER2"\n"
+#endif
 				STR_CHEATER3"\n"
 				STR_CHEATER4"\n"
 				STR_CHEATER5);
@@ -712,7 +732,12 @@ void CheckKeys (void)
 	 ClearSplitVWB ();
 	 VW_ScreenToScreen (displayofs,bufferofs,80,160);
 
+#ifndef RUSSIAN
 	 Message("Debugging keys are\nnow available!");
+#else
+	 Message("Теперь доступны\nклавиши для отладки!");
+#endif
+
 	 UNCACHEGRCHUNK(STARTFONT+1);
 	 PM_CheckMainMem ();
 	 IN_ClearKeysDown();
@@ -734,10 +759,17 @@ void CheckKeys (void)
 	 ClearSplitVWB ();
 	 VW_ScreenToScreen (displayofs,bufferofs,80,160);
 
+#ifndef RUSSIAN
 	 Message("Commander Keen is also\n"
 			 "available from Apogee, but\n"
 			 "then, you already know\n"
 			 "that - right, Cheatmeister?!");
+#else
+         Message("У Apogee также есть для\n"
+                         "тебя Коммандер Кин - но\n"
+                         "ты ведь это и так уже\n"
+                         "знаешь. Да, Читмастер?");
+#endif
 
 	 UNCACHEGRCHUNK(STARTFONT+1);
 	 PM_CheckMainMem ();

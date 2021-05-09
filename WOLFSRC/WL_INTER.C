@@ -153,8 +153,10 @@ void Victory (void)
 	CacheLump(LEVELEND_LUMP_START,LEVELEND_LUMP_END);
 	CA_CacheGrChunk(STARTFONT);
 
+#ifndef RUSSIAN
 #ifndef SPEAR
 	CA_CacheGrChunk(C_TIMECODEPIC);
+#endif
 #endif
 
 
@@ -166,20 +168,35 @@ void Victory (void)
 	UNCACHEGRCHUNK(C_ENDRATIOSPIC);
 #endif
 #else
+
+#ifndef RUSSIAN
 	Write(18,2,STR_YOUWIN);
+#else
+	Write(14,2,STR_YOUWIN);
+#endif
 
 	Write(TIMEX,TIMEY-2,STR_TOTALTIME);
 
+#ifndef RUSSIAN
 	Write(12,RATIOY-2,"averages");
+#else
+	Write(11,RATIOY-2,"в среднем:");
+#endif
 
 	#ifdef SPANISH
 	Write(RATIOX+2,  RATIOY,      STR_RATKILL);
 	Write(RATIOX+2,  RATIOY+2,  STR_RATSECRET);
 	Write(RATIOX+2,  RATIOY+4,STR_RATTREASURE);
 	#else
+	#ifdef RUSSIAN
+	Write(2,RATIOY,      STR_RATKILL);
+	Write(2,RATIOY+2,  STR_RATSECRET);
+	Write(2,  RATIOY+4,STR_RATTREASURE);
+	#else
 	Write(RATIOX+8,RATIOY,      STR_RATKILL);
 	Write(RATIOX+4,RATIOY+2,  STR_RATSECRET);
 	Write(RATIOX,  RATIOY+4,STR_RATTREASURE);
+	#endif
 	#endif
 
 #endif
@@ -245,6 +262,7 @@ void Victory (void)
 #ifndef SPANISH
 #ifndef UPLOAD
 #ifndef SPEAR
+#ifndef RUSSIAN
 	//
 	// TOTAL TIME VERIFICATION CODE
 	//
@@ -265,6 +283,7 @@ void Victory (void)
 #endif
 #endif
 #endif
+#endif
 
 
 	fontnumber = 1;
@@ -282,7 +301,9 @@ void Victory (void)
 	VW_FadeOut ();
 
 #ifndef SPEAR
+#ifndef RUSSIAN
 	UNCACHEGRCHUNK(C_TIMECODEPIC);
+#endif
 #endif
 	UnCacheLump(LEVELEND_LUMP_START,LEVELEND_LUMP_END);
 
@@ -327,17 +348,42 @@ void PG13 (void)
 
 
 //==========================================================================
-
+#ifndef RUSSIAN
 void Write(int x,int y,char *string)
+#else
+void Write(int x,int y,unsigned char *string)
+#endif
 {
+#ifndef RUSSIAN
  int alpha[]={L_NUM0PIC,L_NUM1PIC,L_NUM2PIC,L_NUM3PIC,L_NUM4PIC,L_NUM5PIC,
 	L_NUM6PIC,L_NUM7PIC,L_NUM8PIC,L_NUM9PIC,L_COLONPIC,0,0,0,0,0,0,L_APIC,L_BPIC,
 	L_CPIC,L_DPIC,L_EPIC,L_FPIC,L_GPIC,L_HPIC,L_IPIC,L_JPIC,L_KPIC,
 	L_LPIC,L_MPIC,L_NPIC,L_OPIC,L_PPIC,L_QPIC,L_RPIC,L_SPIC,L_TPIC,
 	L_UPIC,L_VPIC,L_WPIC,L_XPIC,L_YPIC,L_ZPIC};
+#else
+ // "Rekord" caption is "@" character
+ // Include Cyrillic alphabet
+ // TODO: Che, She, Y
+ int alpha[]={L_NUM0PIC,L_NUM1PIC,L_NUM2PIC,L_NUM3PIC,L_NUM4PIC,L_NUM5PIC,
+	L_NUM6PIC,L_NUM7PIC,L_NUM8PIC,L_NUM9PIC,L_COLONPIC,0,0,0,0,0,L_REKORDPIC,L_APIC,L_BPIC,
+	L_CPIC,L_DPIC,L_EPIC,L_FPIC,L_GPIC,L_HPIC,L_IPIC,L_JPIC,L_KPIC,
+	L_LPIC,L_MPIC,L_NPIC,L_OPIC,L_PPIC,L_QPIC,L_RPIC,L_SPIC,L_TPIC,
+	L_UPIC,L_VPIC,L_WPIC,L_XPIC,L_YPIC,L_ZPIC,0,0,0,0,0,
+	// Include Cyrillic alphabet
+	// Б, Г, Д, Ж, И, Й, Л, П, У, Ф, Ц, Ч, Ш, Щ, Ъ, Ы, Ь, Э, Ю, Я, Ё
+	L_APIC,  L_BEPIC,  L_BPIC, L_GEPIC,L_DEPIC,L_EPIC, L_JEPIC,L_NUM3PIC,
+	L_IIPIC, L_IKPIC,  L_KPIC, L_LEPIC,L_MPIC, L_HPIC, L_OPIC, L_PEPIC,
+	L_PPIC,  L_CPIC,   L_TPIC, L_UEPIC,L_FEPIC,L_XPIC, L_CEPIC,L_CHEPIC,
+	L_SHEPIC,L_SCHEPIC,L_TZPIC,L_YYPIC,L_MZPIC,L_EEPIC,L_YUPIC,L_YAPIC,
+	L_YOPIC,L_YOPIC};
+#endif
 
  int i,ox,nx,ny;
+#ifndef RUSSIAN
  char ch;
+#else
+ unsigned char ch;
+#endif
 
 
  ox=nx=x*8;
@@ -351,6 +397,12 @@ void Write(int x,int y,char *string)
    else
    {
 	ch=string[i];
+#ifdef RUSSIAN
+	if (ch>=(unsigned char)'р')
+	  ch-=48; // merge Cyrillic sequence "р-я" with "а-п"
+	if(ch>=(unsigned char)'а')
+	  ch-=32; // make it uppercased
+#endif
 	if (ch>='a')
 	  ch-=('a'-'A');
 	ch-='0';
@@ -377,11 +429,33 @@ void Write(int x,int y,char *string)
 	 case '%':
 	   VWB_DrawPic(nx,ny,L_PERCENTPIC);
 	   break;
-
+#ifdef RUSSIAN
+	 case '_': // 8 pixels blank offset hack
+	   nx+=8;
+	   continue;
+#endif
 	 default:
 	   VWB_DrawPic(nx,ny,alpha[ch]);
 	}
+#ifndef RUSSIAN
 	nx+=16;
+#else // handling X-coordinate for wide letters
+	switch(alpha[ch])
+	{
+		case L_REKORDPIC: // РЕКОРД string
+			nx+=90;
+			break;
+		case L_JEPIC:
+		case L_SHEPIC:
+		case L_SCHEPIC:
+		case L_YYPIC:
+		case L_YUPIC:
+			nx+=24;
+			break;
+		default:
+			nx+=16;
+	}
+#endif
    }
 }
 
@@ -586,21 +660,37 @@ void LevelCompleted (void)
 	 #ifdef SPANISH
 	 Write(14,2,"piso\ncompletado");
 	 #else
+	 #ifdef RUSSIAN
+	 Write(14,2,"этаж\nпройден");
+	 #else
 	 Write(14,2,"floor\ncompleted");
 	 #endif
+	 #endif
 
+	 #ifdef RUSSIAN
+	 Write(14,7,STR_BONUS"     0");
+	 Write(14,10,STR_TIME);
+	 Write(14,12,STR_PAR);
+	 #else
 	 Write(14,7,STR_BONUS"     0");
 	 Write(16,10,STR_TIME);
 	 Write(16,12,STR_PAR);
+	 #endif
 
 	 #ifdef SPANISH
 	 Write(11,14,    STR_RAT2KILL);
 	 Write(11,16,  STR_RAT2SECRET);
 	 Write(11,18,STR_RAT2TREASURE);
 	 #else
+	 #ifdef RUSSIAN
+	 Write(1,14,    STR_RAT2KILL);
+	 Write(1,16,  STR_RAT2SECRET);
+	 Write(1,18,STR_RAT2TREASURE);
+	 #else
 	 Write(9,14,    STR_RAT2KILL);
 	 Write(5,16,  STR_RAT2SECRET);
 	 Write(1,18,STR_RAT2TREASURE);
+	 #endif
 	 #endif
 
 	 Write(26,2,itoa(gamestate.mapon+1,tempstr,10));
@@ -860,6 +950,7 @@ void LevelCompleted (void)
 #ifndef SPEARDEMO
 	  switch(mapon)
 	  {
+#ifndef RUSSIAN
 	   case 4: Write(14,4," trans\n"
 						  " grosse\n"
 						  STR_DEFEATED); break;
@@ -877,14 +968,40 @@ void LevelCompleted (void)
 	   case 19: Write(13,4,"secret castle\n"
 						   "    area\n"
 						   "  completed!"); break;
+#else
+	   case 4: Write(15,4,"  транс\n"
+						  "  гроссе\n"
+						  STR_DEFEATED); break;
+	   case 9: Write(15,4,"  спрут\n"
+						  "вильгельм\n"
+						  STR_DEFEATED); break;
+	   case 15: Write(14,4,"убермутант\n"
+						   STR_DEFEATED); break;
+	   case 17: Write(14,4," рыцарь\n"
+						   " смерти\n"
+						   STR_DEFEATED); break;
+	   case 18: Write(13,4,"  тайный\n"
+						   "  тоннель\n"
+						   "  пройден!"); break;
+	   case 19: Write(13,4,"тайное место\n"
+						   "    замка\n"
+						   "  пройдено!"); break;
+#endif
 	  }
 #endif
 #else
+#ifndef RUSSIAN
 	  Write(14,4,"secret floor\n completed!");
+#else
+	  Write(14,4,"тайный этаж\n  пройден!");
+#endif
 #endif
 
+#ifndef RUSSIAN
 	  Write(10,16,"15000 bonus!");
-
+#else
+	  Write(10,16,"бонус 15000!");
+#endif
 	  VW_UpdateScreen();
 	  VW_FadeIn();
 
@@ -1046,6 +1163,10 @@ void	DrawHighScores(void)
 	CA_CacheGrChunk (C_LEVELPIC);
 	CA_CacheGrChunk (C_SCOREPIC);
 	CA_CacheGrChunk (C_NAMEPIC);
+#ifdef RUSSIAN
+	CA_CacheGrChunk (C_ENGPIC);
+	CA_CacheGrChunk (C_RUSPIC);
+#endif
 
 	ClearMScreen();
 	DrawStripes(10);
@@ -1101,7 +1222,11 @@ void	DrawHighScores(void)
 		ultoa(s->completed,buffer,10);
 #ifndef SPEAR
 		for (str = buffer;*str;str++)
+#ifndef RUSSIAN
 			*str = *str + (129 - '0');	// Used fixed-width numbers (129...)
+#else
+			*str = *str + (177 - '0');	// In Russian fixed-width numbers starts from (177...)
+#endif
 		USL_MeasureString(buffer,&w,&h);
 		PrintX = (22 * 8)-w;
 #else
@@ -1132,7 +1257,11 @@ void	DrawHighScores(void)
 		ultoa(s->score,buffer,10);
 #ifndef SPEAR
 		for (str = buffer;*str;str++)
+#ifndef RUSSIAN
 			*str = *str + (129 - '0');	// Used fixed-width numbers (129...)
+#else
+			*str = *str + (177 - '0');	// In Russian fixed-width numbers starts from (177...)
+#endif
 		USL_MeasureString(buffer,&w,&h);
 		PrintX = (34 * 8) - 8 - w;
 #else
@@ -1241,7 +1370,11 @@ void	CheckHighScore (long score,word other)
 		PrintX = 4*8;
 		backcolor = BORDCOLOR;
 		fontcolor = 15;
+#ifndef RUSSIAN
 		US_LineInput(PrintX,PrintY,Scores[n].name,nil,true,MaxHighName,100);
+#else
+		US_MultiLangLineInput(PrintX,PrintY,Scores[n].name,nil,true,MaxHighName,130, LT_X+10, LT_Y+8);
+#endif
 #else
 		PrintX = 16;
 		fontnumber = 1;
@@ -1249,7 +1382,13 @@ void	CheckHighScore (long score,word other)
 		VW_UpdateScreen ();
 		backcolor = 0x9c;
 		fontcolor = 15;
+#ifndef RUSSIAN
 		US_LineInput(PrintX,PrintY,Scores[n].name,nil,true,MaxHighName,130);
+#else
+		CacheLump (C_ENGPIC,C_RUSPIC);
+		US_MultiLangLineInput(PrintX,PrintY,Scores[n].name,nil,true,MaxHighName,130, LT_X+10, LT_Y+8);
+		UnCacheLump (C_ENGPIC,C_RUSPIC);
+#endif
 #endif
 	}
 	else
@@ -1264,6 +1403,7 @@ void	CheckHighScore (long score,word other)
 #ifndef UPLOAD
 #ifndef SPEAR
 #ifndef JAPAN
+#ifndef RUSSIAN
 ////////////////////////////////////////////////////////
 //
 // NON-SHAREWARE NOTICE
@@ -1310,9 +1450,11 @@ void NonShareware(void)
 #endif
 #endif
 #endif
+#endif
 
 #ifdef SPEAR
 #ifndef SPEARDEMO
+#ifndef SODPATCH
 ////////////////////////////////////////////////////////
 //
 // COPY PROTECTION FOR FormGen
@@ -1713,6 +1855,7 @@ void CopyProtection(void)
 	exit(1);
 }
 
+#endif // SODPATCH
 #endif // SPEARDEMO
 #endif // SPEAR
 //===========================================================================

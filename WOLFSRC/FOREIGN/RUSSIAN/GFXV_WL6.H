@@ -1,0 +1,257 @@
+//////////////////////////////////////
+//
+// Graphics .H file for .WL6
+// IGRAB-ed on Wed Apr 13 06:58:44 1994
+// Russian version adapted by Pavel Keyno
+// Excelled on Sat May 08 12:37:44 2021
+// Russian started at Fri Jan 22 22:56:44 2021
+//
+//////////////////////////////////////
+
+typedef enum {
+		// Lump Start
+		H_BJPIC=3,
+		H_CASTLEPIC,	//	4
+		H_BLAZEPIC,	//	5
+		H_TOPWINDOWPIC,	//	6
+		H_LEFTWINDOWPIC,	//	7
+		H_RIGHTWINDOWPIC,	//	8
+		H_BOTTOMINFOPIC,	//	9
+		// Lump Start		
+		C_OPTIONSPIC,	//	10
+		C_CURSOR1PIC,	//	11
+		C_CURSOR2PIC,	//	12
+		C_NOTSELECTEDPIC,	//	13
+		C_SELECTEDPIC,	//	14
+		C_FXTITLEPIC,	//	15
+		C_DIGITITLEPIC,	//	16
+		C_MUSICTITLEPIC,	//	17
+		C_MOUSELBACKPIC,	//	18
+		C_BABYMODEPIC,	//	19
+		C_EASYPIC,	//	20
+		C_NORMALPIC,	//	21
+		C_HARDPIC,	//	22
+		C_LOADSAVEDISKPIC,	//	23
+		C_DISKLOADING1PIC,	//	24
+		C_DISKLOADING2PIC,	//	25
+		C_CONTROLPIC,	//	26
+		C_CUSTOMIZEPIC,	//	27
+		C_LOADGAMEPIC,	//	28
+		C_SAVEGAMEPIC,	//	29
+		C_EPISODE1PIC,	//	30
+		C_EPISODE2PIC,	//	31
+		C_EPISODE3PIC,	//	32
+		C_EPISODE4PIC,	//	33
+		C_EPISODE5PIC,	//	34
+		C_EPISODE6PIC,	//	35
+		C_CODEPIC,	//	36
+		C_TIMECODEPIC,	//	37
+		C_LEVELPIC,	//	38
+		C_NAMEPIC,	//	39
+		C_SCOREPIC,	//	40
+		C_JOY1PIC,	//	41
+		C_JOY2PIC,	//	42
+		C_ENGPIC,	//	43
+		C_RUSPIC,	//	44
+		C_LAYOUTCTRLPIC,	//	45
+		// Lump Start		
+		L_GUYPIC,	//	46
+		L_COLONPIC,	//	47
+		L_NUM0PIC,	//	48
+		L_NUM1PIC,	//	49
+		L_NUM2PIC,	//	50
+		L_NUM3PIC,	//	51
+		L_NUM4PIC,	//	52
+		L_NUM5PIC,	//	53
+		L_NUM6PIC,	//	54
+		L_NUM7PIC,	//	55
+		L_NUM8PIC,	//	56
+		L_NUM9PIC,	//	57
+		L_PERCENTPIC,	//	58
+		L_REKORDPIC,	//	59
+		L_APIC,	//	60
+		L_BPIC,	//	61
+		L_CPIC,	//	62
+		L_DPIC,	//	63
+		L_EPIC,	//	64
+		L_FPIC,	//	65
+		L_GPIC,	//	66
+		L_HPIC,	//	67
+		L_IPIC,	//	68
+		L_JPIC,	//	69
+		L_KPIC,	//	70
+		L_LPIC,	//	71
+		L_MPIC,	//	72
+		L_NPIC,	//	73
+		L_OPIC,	//	74
+		L_PPIC,	//	75
+		L_QPIC,	//	76
+		L_RPIC,	//	77
+		L_SPIC,	//	78
+		L_TPIC,	//	79
+		L_UPIC,	//	80
+		L_VPIC,	//	81
+		L_WPIC,	//	82
+		L_XPIC,	//	83
+		L_YPIC,	//	84
+		L_ZPIC,	//	85
+		L_EXPOINTPIC,	//	86
+		L_APOSTROPHEPIC,	//	87
+		L_BEPIC,	//	88
+		L_GEPIC,	//	89
+		L_DEPIC,	//	90
+		L_JEPIC,	//	91
+		L_IIPIC,	//	92
+		L_IKPIC,	//	93
+		L_LEPIC,	//	94
+		L_PEPIC,	//	95
+		L_UEPIC,	//	96
+		L_FEPIC,	//	97
+		L_CEPIC,	//	98
+		L_CHEPIC,	//	99
+		L_SHEPIC,	//	100
+		L_SCHEPIC,	//	101
+		L_TZPIC,	//	102
+		L_YYPIC,	//	103
+		L_MZPIC,	//	104
+		L_EEPIC,	//	105
+		L_YUPIC,	//	106
+		L_YAPIC,	//	107
+		L_YOPIC,	//	108
+		L_GUY2PIC,	//	109
+		L_BJWINSPIC,	//	110
+		STATUSBARPIC,	//	111
+		TITLEPIC,	//	112
+		PG13PIC,	//	113
+		CREDITSPIC,	//	114
+		HIGHSCORESPIC,	//	115
+		// Lump Start		
+		KNIFEPIC,	//	116
+		GUNPIC,	//	117
+		MACHINEGUNPIC,	//	118
+		GATLINGGUNPIC,	//	119
+		NOKEYPIC,	//	120
+		NOSILVERKEYPIC,	//	121
+		GOLDKEYPIC,	//	122
+		SILVERKEYPIC,	//	123
+		N_BLANKPIC,	//	124
+		N_0PIC,	//	125
+		N_1PIC,	//	126
+		N_2PIC,	//	127
+		N_3PIC,	//	128
+		N_4PIC,	//	129
+		N_5PIC,	//	130
+		N_6PIC,	//	131
+		N_7PIC,	//	132
+		N_8PIC,	//	133
+		N_9PIC,	//	134
+		FACE1APIC,	//	135
+		FACE1BPIC,	//	136
+		FACE1CPIC,	//	137
+		FACE2APIC,	//	138
+		FACE2BPIC,	//	139
+		FACE2CPIC,	//	140
+		FACE3APIC,	//	141
+		FACE3BPIC,	//	142
+		FACE3CPIC,	//	143
+		FACE4APIC,	//	144
+		FACE4BPIC,	//	145
+		FACE4CPIC,	//	146
+		FACE5APIC,	//	147
+		FACE5BPIC,	//	148
+		FACE5CPIC,	//	149
+		FACE6APIC,	//	150
+		FACE6BPIC,	//	151
+		FACE6CPIC,	//	152
+		FACE7APIC,	//	153
+		FACE7BPIC,	//	154
+		FACE7CPIC,	//	155
+		FACE8APIC,	//	156
+		GOTGATLINGPIC,	//	157
+		MUTANTBJPIC,	//	158
+		PAUSEDPIC,	//	159
+		GETPSYCHEDPIC,	//	160
+		JOYPIC,	//	161
+		FOODPIC,	//	162
+		BLANKPIC,	//	163
+		ORUPIC,	//	164
+		KLUPIC,	//	165
+		AMMMPIC,	//	166
+		WULF3DPIC,	//	167
+		VIZAPIC,	//	168
+		MASTERCARTPIC,	//	169
+		ITPIC,	//	170
+		KEYBOARDPIC,	//	171
+		OGPICPIC,	//	172
+				
+		ORDERSCREEN=174,	//	174
+		ERRORSCREEN,	//	175
+		T_HELPART,	//	176
+		T_DEMO0,	//	177
+		T_DEMO1,	//	178
+		T_DEMO2,	//	179
+		T_DEMO3,	//	180
+		T_ENDART1,	//	181
+		T_ENDART2,	//	182
+		T_ENDART3,	//	183
+		T_ENDART4,	//	184
+		T_ENDART5,	//	185
+		T_ENDART6,	//	186
+
+
+		ENUMEND
+	} graphicnums;
+
+//
+// Data LUMPs
+//
+#define README_LUMP_START		3
+#define README_LUMP_END			9
+
+#define CONTROLS_LUMP_START		10
+#define CONTROLS_LUMP_END		45
+
+#define LEVELEND_LUMP_START		46
+#define LEVELEND_LUMP_END		110
+
+#define LATCHPICS_LUMP_START	116
+#define LATCHPICS_LUMP_END		160
+
+
+//
+// Amount of each data item
+//
+#define NUMCHUNKS    187
+#define NUMFONT      2
+#define NUMFONTM     0
+#define NUMPICS      170
+#define NUMPICM      0
+#define NUMSPRITES   0
+#define NUMTILE8     72
+#define NUMTILE8M    0
+#define NUMTILE16    0
+#define NUMTILE16M   0
+#define NUMTILE32    0
+#define NUMTILE32M   0
+#define NUMEXTERNS   13
+//
+// File offsets for data items
+//
+#define STRUCTPIC    0
+
+#define STARTFONT    1
+#define STARTFONTM   3
+#define STARTPICS    3
+#define STARTPICM    173
+#define STARTSPRITES 173
+#define STARTTILE8   173
+#define STARTTILE8M  174
+#define STARTTILE16  174
+#define STARTTILE16M 174
+#define STARTTILE32  174
+#define STARTTILE32M 174
+#define STARTEXTERNS 174
+
+//
+// Thank you for using Excel! Haha.
+//

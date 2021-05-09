@@ -1,0 +1,306 @@
+//////////////////////////////////////
+//
+// Graphics .H file for .SOD
+// IGRAB-ed on Thu Oct 08 20:38:29 1992
+// Russian version adapted by Pavel Keyno
+// Excelled on Sun May 09 02:47:44 2021
+//
+//////////////////////////////////////
+
+typedef enum {
+		// Lump Start
+		C_BACKDROPPIC=3,
+		C_MOUSELBACKPIC,	//	4
+		C_LAYOUTCTRLPIC,	//	5
+		C_ENGPIC,	//	6
+		C_RUSPIC,	//	7
+		C_CURSOR1PIC,	//	8
+		C_CURSOR2PIC,	//	9
+		C_NOTSELECTEDPIC,	//	10
+		C_SELECTEDPIC,	//	11
+		// Lump Start		
+		C_CUSTOMIZEPIC,	//	12
+		C_JOY1PIC,	//	13
+		C_JOY2PIC,	//	14
+		C_MOUSEPIC,	//	15
+		C_JOYSTICKPIC,	//	16
+		C_KEYBOARDPIC,	//	17
+		C_CONTROLPIC,	//	18
+		// Lump Start		
+		C_OPTIONSPIC,	//	19
+		// Lump Start		
+		C_FXTITLEPIC,	//	20
+		C_DIGITITLEPIC,	//	21
+		C_MUSICTITLEPIC,	//	22
+		// Lump Start		
+		C_HOWTOUGHPIC,	//	23
+		C_BABYMODEPIC,	//	24
+		C_EASYPIC,	//	25
+		C_NORMALPIC,	//	26
+		C_HARDPIC,	//	27
+		// Lump Start		
+		C_DISKLOADING1PIC,	//	28
+		C_DISKLOADING2PIC,	//	29
+		C_LOADGAMEPIC,	//	30
+		C_SAVEGAMEPIC,	//	31
+		// Lump Start		
+		HIGHSCORESPIC,	//	32
+		C_WONSPEARPIC,	//	33
+		// Lump Start		
+		BJCOLLAPSE1PIC,	//	34
+		BJCOLLAPSE2PIC,	//	35
+		BJCOLLAPSE3PIC,	//	36
+		BJCOLLAPSE4PIC,	//	37
+		ENDPICPIC,	//	38
+		// Lump Start		
+		L_GUYPIC,	//	39
+		L_COLONPIC,	//	40
+		L_NUM0PIC,	//	41
+		L_NUM1PIC,	//	42
+		L_NUM2PIC,	//	43
+		L_NUM3PIC,	//	44
+		L_NUM4PIC,	//	45
+		L_NUM5PIC,	//	46
+		L_NUM6PIC,	//	47
+		L_NUM7PIC,	//	48
+		L_NUM8PIC,	//	49
+		L_NUM9PIC,	//	50
+		L_PERCENTPIC,	//	51
+		L_REKORDPIC,	//	52
+		L_APIC,	//	53
+		L_BPIC,	//	54
+		L_CPIC,	//	55
+		L_DPIC,	//	56
+		L_EPIC,	//	57
+		L_FPIC,	//	58
+		L_GPIC,	//	59
+		L_HPIC,	//	60
+		L_IPIC,	//	61
+		L_JPIC,	//	62
+		L_KPIC,	//	63
+		L_LPIC,	//	64
+		L_MPIC,	//	65
+		L_NPIC,	//	66
+		L_OPIC,	//	67
+		L_PPIC,	//	68
+		L_QPIC,	//	69
+		L_RPIC,	//	70
+		L_SPIC,	//	71
+		L_TPIC,	//	72
+		L_UPIC,	//	73
+		L_VPIC,	//	74
+		L_WPIC,	//	75
+		L_XPIC,	//	76
+		L_YPIC,	//	77
+		L_ZPIC,	//	78
+		L_EXPOINTPIC,	//	79
+		L_APOSTROPHEPIC,	//	80
+		L_BEPIC,	//	81
+		L_GEPIC,	//	82
+		L_DEPIC,	//	83
+		L_JEPIC,	//	84
+		L_IIPIC,	//	85
+		L_IKPIC,	//	86
+		L_LEPIC,	//	87
+		L_PEPIC,	//	88
+		L_UEPIC,	//	89
+		L_FEPIC,	//	90
+		L_CEPIC,	//	91
+		L_CHEPIC,	//	92
+		L_SHEPIC,	//	93
+		L_SCHEPIC,	//	94
+		L_TZPIC,	//	95
+		L_YYPIC,	//	96
+		L_MZPIC,	//	97
+		L_EEPIC,	//	98
+		L_YUPIC,	//	99
+		L_YAPIC,	//	100
+		L_YOPIC,	//	101
+		L_GUY2PIC,	//	102
+		L_BJWINSPIC,	//	103
+		// Lump Start		
+		TITLE1PIC,	//	104
+		TITLE2PIC,	//	105
+		// Lump Start		
+		ENDSCREEN11PIC,	//	106
+		// Lump Start		
+		ENDSCREEN12PIC,	//	107
+		ENDSCREEN3PIC,	//	108
+		ENDSCREEN4PIC,	//	109
+		ENDSCREEN5PIC,	//	110
+		ENDSCREEN6PIC,	//	111
+		ENDSCREEN7PIC,	//	112
+		ENDSCREEN8PIC,	//	113
+		ENDSCREEN9PIC,	//	114
+		STATUSBARPIC,	//	115
+		PG13PIC,	//	116
+		CREDITSPIC,	//	117
+		// Lump Start		
+		IDGUYS1PIC,	//	118
+		IDGUYS2PIC,	//	119
+		// Lump Start		
+		COPYPROTTOPPIC,	//	120
+		COPYPROTBOXPIC,	//	121
+		BOSSPIC1PIC,	//	122
+		BOSSPIC2PIC,	//	123
+		BOSSPIC3PIC,	//	124
+		BOSSPIC4PIC,	//	125
+		// Lump Start		
+		KNIFEPIC,	//	126
+		GUNPIC,	//	127
+		MACHINEGUNPIC,	//	128
+		GATLINGGUNPIC,	//	129
+		NOKEYPIC,	//	130
+		NOSILVERKEYPIC,	//	131
+		GOLDKEYPIC,	//	132
+		SILVERKEYPIC,	//	133
+		N_BLANKPIC,	//	134
+		N_0PIC,	//	135
+		N_1PIC,	//	136
+		N_2PIC,	//	137
+		N_3PIC,	//	138
+		N_4PIC,	//	139
+		N_5PIC,	//	140
+		N_6PIC,	//	141
+		N_7PIC,	//	142
+		N_8PIC,	//	143
+		N_9PIC,	//	144
+		FACE1APIC,	//	145
+		FACE1BPIC,	//	146
+		FACE1CPIC,	//	147
+		FACE2APIC,	//	148
+		FACE2BPIC,	//	149
+		FACE2CPIC,	//	150
+		FACE3APIC,	//	151
+		FACE3BPIC,	//	152
+		FACE3CPIC,	//	153
+		FACE4APIC,	//	154
+		FACE4BPIC,	//	155
+		FACE4CPIC,	//	156
+		FACE5APIC,	//	157
+		FACE5BPIC,	//	158
+		FACE5CPIC,	//	159
+		FACE6APIC,	//	160
+		FACE6BPIC,	//	161
+		FACE6CPIC,	//	162
+		FACE7APIC,	//	163
+		FACE7BPIC,	//	164
+		FACE7CPIC,	//	165
+		FACE8APIC,	//	166
+		GOTGATLINGPIC,	//	167
+		GODMODEFACE1PIC,	//	168
+		GODMODEFACE2PIC,	//	169
+		GODMODEFACE3PIC,	//	170
+		BJWAITING1PIC,	//	171
+		BJWAITING2PIC,	//	172
+		BJOUCHPIC,	//	173
+		PAUSEDPIC,	//	174
+		GETPSYCHEDPIC,	//	175
+
+		ORDERSCREEN=177,//	177
+		ERRORSCREEN,	//	178
+		TITLEPALETTE,	//	179
+		END1PALETTE,	//	180
+		END2PALETTE,	//	181
+		END3PALETTE,	//	182
+		END4PALETTE,	//	183
+		END5PALETTE,	//	184
+		END6PALETTE,	//	185
+		END7PALETTE,	//	186
+		END8PALETTE,	//	187
+		END9PALETTE,	//	188
+		IDGUYSPALETTE,	//	189
+		T_DEMO0,	//	190
+		T_DEMO1,	//	191
+		T_DEMO2,	//	192
+		T_DEMO3,	//	193
+		T_ENDART1,	//	194
+		ENUMEND		
+     } graphicnums;
+
+//
+// Data LUMPs
+//
+#define BACKDROP_LUMP_START		3
+#define BACKDROP_LUMP_END		11
+
+#define CONTROL_LUMP_START		12
+#define CONTROL_LUMP_END		18
+
+#define OPTIONS_LUMP_START		19
+#define OPTIONS_LUMP_END		19
+
+#define SOUND_LUMP_START		20
+#define SOUND_LUMP_END			22
+
+#define NEWGAME_LUMP_START		23
+#define NEWGAME_LUMP_END		27
+
+#define LOADSAVE_LUMP_START		28
+#define LOADSAVE_LUMP_END		31
+
+#define HIGHSCORES_LUMP_START	32
+#define HIGHSCORES_LUMP_END		33
+
+#define ENDGAME_LUMP_START		34
+#define ENDGAME_LUMP_END		38
+
+#define LEVELEND_LUMP_START		39
+#define LEVELEND_LUMP_END		103
+
+#define TITLESCREEN_LUMP_START		104
+#define TITLESCREEN_LUMP_END		105
+
+#define ENDGAME1_LUMP_START		106
+#define ENDGAME1_LUMP_END		106
+
+#define ENDGAME2_LUMP_START		107
+#define ENDGAME2_LUMP_END		117
+
+#define EASTEREGG_LUMP_START	118
+#define EASTEREGG_LUMP_END		119
+
+#define COPYPROT_LUMP_START		120
+#define COPYPROT_LUMP_END		125
+
+#define LATCHPICS_LUMP_START	126
+#define LATCHPICS_LUMP_END		175
+
+
+//
+// Amount of each data item
+//
+#define NUMCHUNKS    195
+#define NUMFONT      2
+#define NUMFONTM     0
+#define NUMPICS      173
+#define NUMPICM      0
+#define NUMSPRITES   0
+#define NUMTILE8     72
+#define NUMTILE8M    0
+#define NUMTILE16    0
+#define NUMTILE16M   0
+#define NUMTILE32    0
+#define NUMTILE32M   0
+#define NUMEXTERNS   18
+//
+// File offsets for data items
+//
+#define STRUCTPIC    0
+
+#define STARTFONT    1
+#define STARTFONTM   3
+#define STARTPICS    3
+#define STARTPICM    176
+#define STARTSPRITES 176
+#define STARTTILE8   176
+#define STARTTILE8M  177
+#define STARTTILE16  177
+#define STARTTILE16M 177
+#define STARTTILE32  177
+#define STARTTILE32M 177
+#define STARTEXTERNS 177
+
+//
+// Thank you for using Excel! Haha.
+//

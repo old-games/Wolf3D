@@ -60,6 +60,7 @@ void DebugMemory (void)
 
 	CenterWindow (16,7);
 
+#ifndef RUSSIAN
 	US_CPrint ("Memory Usage");
 	US_CPrint ("------------");
 	US_Print ("Total     :");
@@ -67,6 +68,15 @@ void DebugMemory (void)
 	US_Print ("k\nFree      :");
 	US_PrintUnsigned (MM_UnusedMemory()/1024);
 	US_Print ("k\nWith purge:");
+#else
+	US_CPrint ("Исп. памяти");
+	US_CPrint ("------------");
+	US_Print ("Всего     :");
+	US_PrintUnsigned (mminfo.mainmem/1024);
+	US_Print ("k\nСвободно    :");
+	US_PrintUnsigned (MM_UnusedMemory()/1024);
+	US_Print ("k\nС чисткой:");
+#endif
 	US_PrintUnsigned (MM_TotalFree()/1024);
 	US_Print ("k\n");
 	VW_UpdateScreen();
@@ -82,7 +92,7 @@ void DebugMemory (void)
 =
 ==================
 */
-
+#ifndef RUSSIAN
 void CountObjects (void)
 {
 	int	i,total,count,active,inactive,doors;
@@ -123,7 +133,7 @@ void CountObjects (void)
 	VW_UpdateScreen();
 	IN_Ack ();
 }
-
+#endif
 //===========================================================================
 
 /*
@@ -212,7 +222,7 @@ void PicturePause (void)
 =
 ================
 */
-
+#ifndef RUSSIAN
 #pragma warn -pia
 void ShapeTest (void)
 {
@@ -398,7 +408,7 @@ static	char	buf[10];
 	SD_StopDigitized();
 }
 #pragma warn +pia
-
+#endif
 
 
 //===========================================================================
@@ -417,6 +427,7 @@ int DebugKeys (void)
 	boolean esc;
 	int level,i;
 
+#ifndef RUSSIAN
 	if (Keyboard[sc_B])		// B = border color
 	{
 		CenterWindow(24,3);
@@ -438,6 +449,7 @@ int DebugKeys (void)
 		CountObjects();
 		return 1;
 	}
+#endif
 
 	if (Keyboard[sc_E])		// E = quit level
 	{
@@ -447,6 +459,7 @@ int DebugKeys (void)
 //		gamestate.mapon++;
 	}
 
+#ifndef RUSSIAN
 	if (Keyboard[sc_F])		// F = facing spot
 	{
 		CenterWindow (14,4);
@@ -460,14 +473,23 @@ int DebugKeys (void)
 		IN_Ack();
 		return 1;
 	}
+#endif
 
 	if (Keyboard[sc_G])		// G = god mode
 	{
+#ifndef RUSSIAN
 		CenterWindow (12,2);
 		if (godmode)
 		  US_PrintCentered ("God mode OFF");
 		else
 		  US_PrintCentered ("God mode ON");
+#else
+		CenterWindow (15,2);
+		if (godmode)
+		  US_PrintCentered ("Режим Бога ВЫКЛ");
+		else
+		  US_PrintCentered ("Режим Бога ВКЛ");
+#endif
 		VW_UpdateScreen();
 		IN_Ack();
 		godmode ^= 1;
@@ -480,8 +502,13 @@ int DebugKeys (void)
 	}
 	else if (Keyboard[sc_I])			// I = item cheat
 	{
+#ifndef RUSSIAN
 		CenterWindow (12,3);
 		US_PrintCentered ("Free items!");
+#else
+		CenterWindow (16,3);
+		US_PrintCentered ("Предметы даром!");
+#endif
 		VW_UpdateScreen();
 		GivePoints (100000);
 		HealSelf (99);
@@ -499,15 +526,23 @@ int DebugKeys (void)
 		DebugMemory();
 		return 1;
 	}
-#ifdef SPEAR
+#if defined(SPEAR) || defined(RUSSIAN)
 	else if (Keyboard[sc_N])			// N = no clip
 	{
 		noclip^=1;
+#ifndef RUSSIAN
 		CenterWindow (18,3);
 		if (noclip)
 			US_PrintCentered ("No clipping ON");
 		else
 			US_PrintCentered ("No clipping OFF");
+#else
+		CenterWindow (26,3);
+		if (noclip)
+			US_PrintCentered ("Свободное перемещение ВКЛ");
+		else
+			US_PrintCentered ("Свободное перемещение ВЫКЛ");
+#endif
 		VW_UpdateScreen();
 		IN_Ack ();
 		return 1;
@@ -530,15 +565,24 @@ int DebugKeys (void)
 	else if (Keyboard[sc_S])			// S = slow motion
 	{
 		singlestep^=1;
+#ifndef RUSSIAN
 		CenterWindow (18,3);
 		if (singlestep)
 			US_PrintCentered ("Slow motion ON");
 		else
 			US_PrintCentered ("Slow motion OFF");
+#else
+		CenterWindow (21,3);
+		if (singlestep)
+			US_PrintCentered ("Режим замедления ВКЛ");
+		else
+			US_PrintCentered ("Режим замедления ВЫКЛ");
+#endif
 		VW_UpdateScreen();
 		IN_Ack ();
 		return 1;
 	}
+#ifndef RUSSIAN
 	else if (Keyboard[sc_T])			// T = shape test
 	{
 		ShapeTest ();
@@ -559,14 +603,23 @@ int DebugKeys (void)
 		}
 		return 1;
 	}
+#endif
 	else if (Keyboard[sc_W])			// W = warp to level
 	{
 		CenterWindow(26,3);
 		PrintY+=6;
 #ifndef SPEAR
+#ifndef RUSSIAN
 		US_Print("  Warp to which level(1-10):");
 #else
+		US_Print("  Переход на уровень (1-10):");
+#endif
+#else
+#ifndef RUSSIAN
 		US_Print("  Warp to which level(1-21):");
+#else
+		US_Print("  Переход на уровень (1-21):");
+#endif
 #endif
 		VW_UpdateScreen();
 		esc = !US_LineInput (px,py,str,NULL,true,2,0);
@@ -585,6 +638,7 @@ int DebugKeys (void)
 		}
 		return 1;
 	}
+#ifndef RUSSIAN
 	else if (Keyboard[sc_X])			// X = item cheat
 	{
 		CenterWindow (12,3);
@@ -594,6 +648,7 @@ int DebugKeys (void)
 		IN_Ack ();
 		return 1;
 	}
+#endif
 
 	return 0;
 }
