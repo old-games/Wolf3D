@@ -17,7 +17,7 @@ kreol
 Pyhesty
 SlashNet
 
-Special thanks to Adam Biser for helping1
+Special thanks to Adam Biser for helping!
 
 Russian version of the game has keyboard layout switch in
 Savegame and in HighScores menus.
