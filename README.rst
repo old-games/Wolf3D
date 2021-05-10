@@ -9,12 +9,19 @@ The team participated in translation and developing
 process: 
 
 Grongy
+
 Keyno
+
 Веловояджер
+
 Dimouse
+
 Gunsliger7
+
 kreol
+
 Pyhesty
+
 SlashNet
 
 Special thanks to Adam Biser for helping!
@@ -38,7 +45,9 @@ To compile the original sources just comment the following
 lines:
 
 #define RUSSIAN
+
 #define MODERNCONTROL
+
 #define SODPATCH
 
 Hope you will find this source code useful. Enjoy!
